@@ -2,21 +2,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="theme-color" content="#4CAF50" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>{% block title %}Finance Manage{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
   </head>
   <body>
-    <div>
-      {% if user.is_authenticated %}
-        <span>Hi {{ user.username }}!</span>
-        <a href="{% url 'dashboard' %}">Dashboard</a>
-        <form action="{% url 'logout' %}" method="post">
-          {% csrf_token %}
-          <button type="submit">Logout</button>
-        </form>
-      {% endif %}
-    </div>
-
+    {% include "navigation/navigation.html" %}
     {% block content %}{% endblock %}
   </body>
 </html>

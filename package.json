@@ -4,6 +4,6 @@
   },
   "scripts": {
     "build:css": "sass static/scss/main.scss static/css/main.css --style=compressed",
-    "watch:css": "sass --watch static/scss/main.scss static/css/main.css --no-source-map"
+    "watch:css": "sass --watch --poll static/scss/main.scss static/css/main.css --no-source-map"
   }
 }

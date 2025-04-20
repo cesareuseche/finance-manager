@@ -1,15 +1,52 @@
 {% extends "base.html" %}
 {% block title %}Sign up{% endblock %}
+{% load static %}
 
 {% block content %}
-<div class="login-page signup-page">
-  <div class="container">
-    <div class="login-form">
+<div class="signup-page">
+  <div class="signup-grid">
+    <div class="signup-image">
+      <img
+        src="{% static 'finance/images/signup.png' %}"
+        alt="Finance Manager Signup"
+        width="100%"
+        height="100%"
+      />
+    </div>
+    <div class="form">
       <h2>Create an account</h2>
 
       <form method="post" novalidate class="form">
         {% csrf_token %}
-        {{ form.as_p }}
+        <label for="username">Username:</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          required
+          autofocus
+          value="{{ form.username.value|default_if_none:'' }}"
+
+        />
+        <label for="password1">Password:</label>
+        <input
+          type="password"
+          name="password1"
+          id="password1"
+          required
+          value="{{ form.password1.value|default_if_none:'' }}"
+        />
+        <label for="password2">Confirm Password:</label>
+        <input
+          type="password"
+          name="password2"
+          id="password2"
+          required
+          value="{{ form.password2.value|default_if_none:'' }}"
+        />
+        {% if form.errors %}
+          <p style="color:red;">{{ form.errors }}</p>
+        {% endif %}
 
         <button type="submit">Register</button>
       </form>

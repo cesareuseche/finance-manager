@@ -1,32 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Hello {{ request.user.username }}!</h2>
+<div class="dashboard">
+  <h2>
+    <i>👋</i> Hello {{ request.user.username }}!
+  </h2>
 
-<h3>Overview</h3>
-<ul>
-  <li>Total income:   ${{ total_income }}</li>
-  <li>Total expenses: ${{ total_expenses }}</li>
-  <li><strong>Balance: ${{ balance }}</strong></li>
-</ul>
+  <div class="welcome">
+    <h3>
+      Overview
+    </h3>
+    <p>
+      Here’s a quick overview of your finances:
+    </p>
+  </div>
 
-<a href="{% url 'entry-add' %}">Add income/expense</a>
+  <ul class="overview">
+    <li>Total income:   ${{ total_income }}</li>
+    <li>Total expenses: ${{ total_expenses }}</li>
+    <li class="balance"><strong>Balance: ${{ balance }}</strong></li>
+  </ul>
 
-<h3>Your entries</h3>
-<table>
-  <tr><th>Date</th><th>Type</th><th>Amount</th><th>Action</th></tr>
-  {% for e in entries %}
-  <tr>
-    <td>{{ e.date }}</td>
-    <td>{{ e.get_entry_type_display }}</td>
-    <td>${{ e.amount }}</td>
-    <td>
-      <form method="post" action="{% url 'entry-delete' e.pk %}">
-        {% csrf_token %}<button>Delete</button>
-      </form>
-    </td>
-  </tr>
-  {% empty %}
-    <tr><td colspan="4">No entries yet.</td></tr>
-  {% endfor %}
-</table>
+  <div class="actions">
+    <a href="{% url 'entry-add' %}">Add income/expense</a>
+  </div>
+
+  <h3>
+    Your entries
+  </h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th><th>Type</th><th>Amount</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in entries %}
+        <tr>
+          <td>{{ e.date }}</td>
+          <td>{{ e.get_entry_type_display }}</td>
+          <td>${{ e.amount }}</td>
+          <td>
+            <form method="post" action="{% url 'entry-delete' e.pk %}">
+              {% csrf_token %}
+              <button>Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+          <tr><td colspan="4">No entries yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
 {% endblock %}
