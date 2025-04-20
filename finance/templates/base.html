@@ -1,31 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>{% block title %}Finance Manager{% endblock %}</title>
-    <style>
-      body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 48rem; }
-      nav  { margin-bottom: 2rem; }
-      nav a { margin-right: 1rem; }
-      form { display: inline; }
-    </style>
-    {% block head %}{% endblock %}
+    <meta charset="UTF-8" />
+    <meta name="theme-color" content="#4CAF50" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>{% block title %}Finance Manage{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
   </head>
   <body>
-    <nav>
-      {% if user.is_authenticated %}
-        <span>Hi {{ user.username }}!</span>
-        <a href="{% url 'dashboard' %}">Dashboard</a>
-        <form action="{% url 'logout' %}" method="post">
-          {% csrf_token %}
-          <button type="submit">Logout</button>
-        </form>
-      {% else %}
-        <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'signup' %}">Sign up</a>
-      {% endif %}
-    </nav>
-
+    {% include "navigation/navigation.html" %}
     {% block content %}{% endblock %}
   </body>
 </html>

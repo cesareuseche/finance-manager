@@ -1,0 +1,72 @@
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--blue-500);
+  padding: 0.5rem 1rem;
+
+  .nav-header {
+    .nav-logo img {
+      display: block;
+      width: 3rem;
+      height: auto;
+    }
+  }
+
+  .nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+
+      &.nav-welcome {
+        font-weight: 500;
+        color: #fff;
+      }
+
+      a,
+      .nav-logout {
+        display: inline-block;
+        font-weight: 600;
+        color: #fff;
+        background: transparent;
+        border: none;
+        text-decoration: none;
+        padding: 0.5rem 0.75rem;
+        border-radius: var(--radius-sm);
+        transition: background var(--transition), transform var(--transition);
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+          background: var(--blue-600);
+          transform: translateY(-1px);
+          outline: none;
+        }
+
+        &:focus-visible {
+          outline: 2px dashed #fff;
+          outline-offset: 2px;
+        }
+      }
+
+      form {
+        margin: 0;
+      }
+    }
+  }
+}

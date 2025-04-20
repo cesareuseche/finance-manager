@@ -1,0 +1,165 @@
+.login-page {
+  margin: 0;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+  height: 100%;
+  overflow: hidden;
+
+  .login-form {
+    width: 100%;
+    display: flex;
+    gap: 1.2rem;
+    flex-direction: column;
+    align-items: center;
+
+    .container {
+      width: min(420px, 90%);
+      padding: 3rem 2.5rem;
+      background: #fff;
+      border-radius: var(--radius-md);
+      box-shadow: 0 2px 8px rgba(0 0 0 / 0.07);
+    }
+  }
+
+  .form {
+    h2 {
+      margin: 0 0 1.5rem;
+      font-size: 1.75rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin: 1rem 0;
+      font-weight: 600;
+      color: #111;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 90%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      font-size: 1rem;
+      color: #111;
+      transition: border-color var(--transition), box-shadow var(--transition);
+
+      &::placeholder {
+        color: var(--gray-500);
+      }
+
+      &:focus {
+        border-color: var(--blue-500);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue-500) 30%, transparent);
+        outline: none;
+      }
+    }
+
+    .forgot-link {
+      display: inline-block;
+      margin: -0.25rem 0 0.75rem;
+      font-size: 0.875rem;
+      color: var(--blue-500);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+      color: #111;
+    }
+
+    input[type="checkbox"] {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--blue-500);
+      border-radius: 2px;
+      display: grid;
+      place-content: center;
+      cursor: pointer;
+      transition: background-color var(--transition), border-color var(--transition);
+
+      &:checked {
+        background: var(--blue-500);
+        border-color: var(--blue-500);
+      }
+
+      &::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        transform: scale(0);
+        transition: transform var(--transition) cubic-bezier(0.2, 0, 0, 1);
+        clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 10%, 80% 0%, 43% 62%);
+        background: #fff;
+      }
+
+      &:checked::before {
+        transform: scale(1);
+      }
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: var(--blue-500);
+      border: none;
+      border-radius: var(--radius-md);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+
+      &:hover {
+        background: var(--blue-600);
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+
+    p {
+      text-align: center;
+      margin-top: 1.75rem;
+      font-size: 0.95rem;
+
+      a {
+        color: var(--blue-500);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    p[style*="color:red"] {
+      margin: 0.75rem 0;
+    }
+  }
+
+  .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: #111;
+  }
+}
