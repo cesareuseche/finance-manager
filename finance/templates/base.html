@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,7 +13,13 @@
     {% block head %}{% endblock %}
   </head>
   <body>
-    <nav>
+    <div>
+      <img
+        src="{% static 'finance/images/finmanage_logo_clean.svg' %}"
+        srcset="{% static 'finance/images/finmanage_logo_clean.svg' %}"
+        alt="Finance Manager Logo"
+        width="160" height="40"
+      />
       {% if user.is_authenticated %}
         <span>Hi {{ user.username }}!</span>
         <a href="{% url 'dashboard' %}">Dashboard</a>
@@ -20,11 +27,8 @@
           {% csrf_token %}
           <button type="submit">Logout</button>
         </form>
-      {% else %}
-        <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'signup' %}">Sign up</a>
       {% endif %}
-    </nav>
+    </div>
 
     {% block content %}{% endblock %}
   </body>

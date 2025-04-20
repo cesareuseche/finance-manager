@@ -1,0 +1,32 @@
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="240" height="300" viewBox="0 0 240 300"
+     role="img" aria-labelledby="title desc">
+  <title id="title">FinManage Logo – Clean Edge</title>
+  <desc id="desc">A single‑fill hexagon with no stroke and three ascending bars forming an F; Chase blue gradient.</desc>
+
+  <!-- ====== Gradient ====== -->
+  <defs>
+    <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#1C8CFF"/>
+      <stop offset="100%" stop-color="#003C71"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ====== Hexagon (no stroke) ====== -->
+  <polygon points="120,10 210,60 210,160 120,235 30,160 30,60"
+           fill="url(#blueGradient)"/>
+
+  <!-- ====== Ascending Bars ====== -->
+  <g fill="#FFFFFF">
+    <rect x="76"  y="120" width="32" height="80" rx="6"/>
+    <rect x="112" y="90"  width="32" height="110" rx="6"/>
+    <rect x="148" y="60"  width="32" height="140" rx="6"/>
+  </g>
+
+  <!-- ====== App Name ====== -->
+  <text x="120" y="275" text-anchor="middle"
+        font-family="Inter, Helvetica, Arial, sans-serif"
+        font-size="38" font-weight="600"
+        fill="#003C71">FinManage</text>
+</svg>
