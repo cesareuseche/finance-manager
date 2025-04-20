@@ -2,6 +2,17 @@
 {% block title %}Logged out{% endblock %}
 
 {% block content %}
-<h2>You’ve been logged out.</h2>
-<p><a href="{% url 'login' %}">Log back in</a> or return to the <a href="{% url 'dashboard' %}">dashboard</a>.</p>
+<div class="logout-page">
+  <div class="logout-card">
+    <h2>
+      You’ve been logged out.
+    </h2>
+    <p>
+      Thank you for using our service. We hope to see you again soon!
+    </p>
+    <a href="{% url 'login' %}" class="btn">
+      Log back in
+    </a>
+  </div>
+</div>
 {% endblock %}

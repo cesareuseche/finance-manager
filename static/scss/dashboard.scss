@@ -36,7 +36,6 @@
     background: #fff;
     border-radius: var(--radius-sm);
     padding: 0 2rem 1.5rem;
-    box-shadow: 0 1px 4px rgba(0 0 0 / 0.05);
     margin-bottom: 2rem;
 
     p {
@@ -153,7 +152,7 @@
               transition: color var(--transition);
 
               &:hover {
-                color: darken(red, 10%);
+                color: red;
               }
             }
           }

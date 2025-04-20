@@ -1,0 +1,48 @@
+.logout-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 4rem);
+  background: var(--gray-100);
+  padding: 2rem;
+
+  .logout-card {
+    background: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 12px rgba(0 0 0 / 0.05);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+
+    h2 {
+      margin-bottom: 0;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+
+    p {
+      font-size: 1rem;
+      color: var(--gray-700);
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--blue-500);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      transition: background var(--transition), transform var(--transition);
+      text-transform: capitalize;
+
+      &:hover {
+        background: var(--blue-600);
+        transform: translateY(-1px);
+      }
+    }
+  }
+}

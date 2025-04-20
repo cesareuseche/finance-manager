@@ -14,18 +14,32 @@
   <ul class="nav-list">
     <li class="nav-item nav-welcome">
       <span class="visually-hidden">Hello</span>
-      <span aria-live="polite">Hi {{ user.username }}!</span>
+      {% if user.is_authenticated %}
+        <span aria-live="polite">
+          Hi {{ user.username }}!
+        </span>
+      {% else %}
+        <span aria-live="polite">
+          Welcome to FinManage!
+        </span>
+      {% endif %}
     </li>
 
+  {% if user.is_authenticated %}
     <li class="nav-item">
-      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'dashboard' %}">
+        Dashboard
+      </a>
     </li>
 
     <li class="nav-item">
       <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
-        <button type="submit" class="nav-logout">Logout</button>
+        <button type="submit" class="nav-logout">
+          Logout
+        </button>
       </form>
     </li>
+  {% endif %}
   </ul>
 </nav>
