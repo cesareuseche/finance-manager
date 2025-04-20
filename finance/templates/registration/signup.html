@@ -1,14 +1,24 @@
 {% extends "base.html" %}
-{% block title %}Sign up{% endblock %}
+{% block title %}Sign up{% endblock %}
 
 {% block content %}
-<h2>Create an account</h2>
+<div class="login-page signup-page">
+  <div class="container">
+    <div class="login-form">
+      <h2>Create an account</h2>
 
-<form method="post" novalidate>
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Register</button>
-</form>
+      <form method="post" novalidate class="form">
+        {% csrf_token %}
+        {{ form.as_p }}
 
-<p>Already have an account? <a href="{% url 'login' %}">Log in here</a>.</p>
+        <button type="submit">Register</button>
+      </form>
+
+      <p>
+        Already have an account?
+        <a href="{% url 'login' %}">Log in here</a>.
+      </p>
+    </div>
+  </div>
+</div>
 {% endblock %}
