@@ -1,0 +1,195 @@
+/* ---------- Variables ---------- */
+:root {
+  --blue-500: #117ACA;      /* primary accent (button / checkbox)   */
+  --blue-600: #07406c;      /* darker hover                         */
+  --gray-100: #f5f7fa;      /* page background                      */
+  --gray-200: #e2e8f0;      /* input border / divider               */
+  --gray-500: #64748b;      /* label + placeholder text             */
+  --radius-md: 6px;
+  --radius-sm: 4px;
+  --transition: 0.15s ease;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.login-page {
+  margin: 0;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+  height: 100%;
+  overflow: hidden;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  gap: 1.2rem;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------- Container ---------- */
+.container {
+  width: min(420px, 90%);
+  padding: 3rem 2.5rem;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0 0 0 / 0.07);
+}
+
+/* ---------- Headings ---------- */
+.form h2 {
+  margin: 0 0 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ---------- Form elements ---------- */
+.form label {
+  display: block;
+  margin: 1rem 0;
+  font-weight: 600;
+  color: #111;
+}
+
+.form input[type="text"],
+.form input[type="password"] {
+  width: 90%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font-size: 1rem;
+  color: #111;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form input[type="text"]::placeholder,
+.form input[type="password"]::placeholder {
+  color: var(--gray-500);
+}
+
+.form input[type="text"]:focus,
+.form input[type="password"]:focus {
+  border-color: var(--blue-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue-500) 30%, transparent);
+  outline: none;
+}
+
+/* ---------- “Forgot password” link ---------- */
+.forgot-link {
+  display: inline-block;
+  margin-top: -0.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--blue-500);
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Custom checkbox ---------- */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  color: #111;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--blue-500);
+  border-radius: 2px;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+input[type="checkbox"]:checked {
+  background: var(--blue-500);
+  border-color: var(--blue-500);
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  transform: scale(0);
+  transition: transform var(--transition) cubic-bezier(0.2, 0, 0, 1);
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 10%, 80% 0%, 43% 62%);
+  background: #fff;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+/* ---------- Submit button ---------- */
+.form button[type="submit"] {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: var(--blue-500);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.form button[type="submit"]:hover {
+  background: var(--blue-600);
+  transform: translateY(-1px);
+}
+
+.form button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* ---------- Signup text ---------- */
+.form p {
+  text-align: center;
+  margin-top: 1.75rem;
+  font-size: 0.95rem;
+}
+
+.form p a {
+  color: var(--blue-500);
+  text-decoration: none;
+}
+
+.form p a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Remember Me ---------- */
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #111;
+}
+
+/* ---------- Inline error message ---------- */
+.form p[style*="color:red"] {
+  margin: 0.75rem 0;
+}

@@ -4,22 +4,11 @@
   <head>
     <meta charset="utf-8" />
     <title>{% block title %}Finance Manager{% endblock %}</title>
-    <style>
-      body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 48rem; }
-      nav  { margin-bottom: 2rem; }
-      nav a { margin-right: 1rem; }
-      form { display: inline; }
-    </style>
-    {% block head %}{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
   </head>
   <body>
     <div>
-      <img
-        src="{% static 'finance/images/finmanage_logo_clean.svg' %}"
-        srcset="{% static 'finance/images/finmanage_logo_clean.svg' %}"
-        alt="Finance Manager Logo"
-        width="160" height="40"
-      />
       {% if user.is_authenticated %}
         <span>Hi {{ user.username }}!</span>
         <a href="{% url 'dashboard' %}">Dashboard</a>
