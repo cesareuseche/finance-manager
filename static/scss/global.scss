@@ -1,0 +1,29 @@
+/* ---------- Variables ---------- */
+:root {
+  --blue-500: #117ACA;      /* primary accent (button / checkbox)   */
+  --blue-600: #07406c;      /* darker hover                         */
+  --gray-100: #f5f7fa;      /* page background                      */
+  --gray-200: #e2e8f0;      /* input border / divider               */
+  --gray-500: #64748b;      /* label + placeholder text             */
+  --radius-md: 6px;
+  --radius-sm: 4px;
+  --transition: 0.15s ease;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #111;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  box-sizing: border-box;
+}
