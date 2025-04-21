@@ -15,9 +15,9 @@
   </div>
 
   <ul class="overview">
-    <li>Total income:   ${{ total_income }}</li>
-    <li>Total expenses: ${{ total_expenses }}</li>
-    <li class="balance"><strong>Balance: ${{ balance }}</strong></li>
+    <li>Total income:   ${{ total_income | floatformat:2 }}</li>
+    <li>Total expenses: ${{ total_expenses | floatformat:2 }}</li>
+    <li class="balance"><strong>Balance: ${{ balance | floatformat:2 }}</strong></li>
   </ul>
 
   <div class="actions">

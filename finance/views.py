@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from decimal import Decimal, ROUND_HALF_UP
 from .forms import EntryForm
 from .models import Entry
 
@@ -24,16 +25,29 @@ class DashboardView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         qs = self.get_queryset()
-        try:
-            # Calculate total income, total expenses, and balance
-            ctx["total_income"]   = qs.filter(entry_type=Entry.INCOME)\
-                                      .aggregate(total=Sum("amount"))["total"] or 0
-            ctx["total_expenses"] = qs.filter(entry_type=Entry.EXPENSE)\
-                                      .aggregate(total=Sum("amount"))["total"] or 0
-            ctx["balance"]        = ctx["total_income"] - ctx["total_expenses"]
-        except DatabaseError:
-            # Handle database errors gracefully
-            ctx["error"] = "Unable to calculate totals"
+
+        # raw sums (could be Decimal or float, depending on your DB backend)
+        total_income   = qs.filter(entry_type=Entry.INCOME)  \
+                           .aggregate(total=Sum("amount"))["total"] or Decimal("0.00")
+        total_expenses = qs.filter(entry_type=Entry.EXPENSE) \
+                           .aggregate(total=Sum("amount"))["total"] or Decimal("0.00")
+
+        # ensure they’re Decimal
+        total_income   = Decimal(total_income)
+        total_expenses = Decimal(total_expenses)
+
+        # quantize to exactly two decimal places
+        total_income   = total_income.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+        total_expenses = total_expenses.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+        # compute balance and quantize
+        balance = (total_income - total_expenses).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+        ctx.update({
+            "total_income":   total_income,
+            "total_expenses": total_expenses,
+            "balance":        balance,
+        })
         return ctx
 
 # View for creating a new financial entry
