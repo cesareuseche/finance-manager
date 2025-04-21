@@ -28,11 +28,6 @@
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" required value="{{ form.password.value|default_if_none:'' }}" />
 
-            <div class="remember-me">
-              <input type="checkbox" name="remember_me" id="remember_me" {% if form.remember_me.value %}checked{% endif %} />
-              <label for="remember_me">Remember me</label>
-            </div>
-
             {% if form.errors %}
               <p style="color:red;">Invalid username or password</p>
             {% endif %}

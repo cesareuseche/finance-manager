@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 import datetime
 from .models import Entry
 
@@ -30,31 +31,50 @@ class EntryForm(forms.ModelForm):
         cleaned = super().clean()
         entry_type = cleaned.get("entry_type")
 
+        # income must have source
         if entry_type == Entry.INCOME and not cleaned.get("source"):
-            raise forms.ValidationError(
-                self.error_messages["source_required"] % {
-                    "value": cleaned.get("source") or "—"
-                }
+            self.add_error(
+                "source",
+                ValidationError(
+                    self.error_messages["source_required"] % {
+                        "value": cleaned.get("source") or "—"
+                    },
+                    code="source_required"
+                )
             )
 
+        # expense must have category
         if entry_type == Entry.EXPENSE and not cleaned.get("category"):
-            raise forms.ValidationError(self.error_messages["category_required"])
+            self.add_error("category", self.error_messages["category_required"])
 
+        # amount > 0
         amount = cleaned.get("amount")
         if amount is not None and amount <= 0:
-            raise forms.ValidationError(self.error_messages["amount"])
+            self.add_error("amount", self.error_messages["amount"])
 
-        date = cleaned.get("date")
-        if date and date > datetime.date.today():
-            raise forms.ValidationError(self.error_messages["date"])
+        # date handling
+        date_val = cleaned.get("date")
+        if not date_val:
+            self.add_error("date", self.error_messages["required"])
+            return cleaned
 
-        if date and date < datetime.date.today():
-            raise forms.ValidationError(self.error_messages["date_past"])
-        try:
-            datetime.datetime.strptime(date, "%m-%d-%Y")
-        except ValueError:
-            raise forms.ValidationError(self.error_messages["date"])
-        if not date:
-            raise forms.ValidationError(self.error_messages["required"])
+        # if a string was passed (unlikely with a DateField), try parsing
+        if isinstance(date_val, str):
+            try:
+                parsed_dt = datetime.datetime.strptime(date_val, "%m-%d-%Y")
+                date_val = parsed_dt.date()
+            except (ValueError, TypeError):
+                self.add_error("date", self.error_messages["date"])
+                return cleaned
+
+        # now date_val should be a date
+        today = datetime.date.today()
+        if date_val > today:
+            self.add_error("date", self.error_messages["date_future"])
+        if date_val < today:
+            self.add_error("date", self.error_messages["date_past"])
+
+        # write back the cleaned date if we parsed it
+        cleaned["date"] = date_val
 
         return cleaned
