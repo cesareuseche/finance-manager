@@ -1,7 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
-import datetime
+from django.utils import timezone
 from .models import Entry
+import datetime
 
 class EntryForm(forms.ModelForm):
     """
@@ -17,7 +18,6 @@ class EntryForm(forms.ModelForm):
         "category_required": "Category is required for expense entries.",
         "amount": "Amount must be greater than zero.",
         "date_future": "Date cannot be in the future.",
-        "date_past": "Date cannot be in the past.",
         "date": "Date must be in the format MM-DD-YYYY.",
         "required": "This field is required.",
     }
@@ -26,6 +26,16 @@ class EntryForm(forms.ModelForm):
         model  = Entry
         fields = ["entry_type", "source", "description",
                   "category", "amount", "date"]
+        widgets = {
+            "date": forms.DateInput(
+                attrs={
+                    "type": "date",
+                    "aria-invalid": "false",
+                    "class": "your-input-class"
+                },
+                format="%Y-%m-%d",
+            ),
+        }
 
     def clean(self):
         cleaned = super().clean()
@@ -68,11 +78,10 @@ class EntryForm(forms.ModelForm):
                 return cleaned
 
         # now date_val should be a date
-        today = datetime.date.today()
+        today = timezone.localdate()
+
         if date_val > today:
             self.add_error("date", self.error_messages["date_future"])
-        if date_val < today:
-            self.add_error("date", self.error_messages["date_past"])
 
         # write back the cleaned date if we parsed it
         cleaned["date"] = date_val
