@@ -1,7 +1,11 @@
 /* ---------- Variables ---------- */
 :root {
   --blue-500: #117ACA;      /* primary accent (button / checkbox)   */
-  --blue-600: #07406c;      /* darker hover                         */
+  --blue-600: #07406c;
+  --green-500: #28a745;
+  --green-600: #1e7e34;    /* darker green color                   */
+  --red-500: #dc3545;        /* danger color                         */
+  --red-600: #c82333;        /* darker red color                     */
   --gray-100: #f5f7fa;      /* page background                      */
   --gray-200: #e2e8f0;      /* input border / divider               */
   --gray-500: #64748b;      /* label + placeholder text             */
