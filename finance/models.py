@@ -12,12 +12,26 @@ class Entry(models.Model):
         (INCOME, 'Income'),
         (EXPENSE, 'Expense'),
     ]
+
+    FOOD = 'food'
+    TRANSPORT = 'transport'
+    ENTERTAINMENT = 'entertainment'
+    SALARY = 'salary'
+    OTHER = 'other'
+    CATEGORY_CHOICES = [
+        (FOOD, 'Food'),
+        (TRANSPORT, 'Transport'),
+        (ENTERTAINMENT, 'Entertainment'),
+        (SALARY, 'Salary'),
+        (OTHER, 'Other'),
+    ]
+
     # Here we are defining the fields for the Entry model.
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     entry_type = models.CharField(max_length=7, choices=TYPE_CHOICES)
     source = models.CharField(max_length=120, blank=True)
     description = models.CharField(max_length=120, blank=True)
-    category = models.CharField(max_length=60, blank=True)
+    category = models.CharField(max_length=15, choices=CATEGORY_CHOICES, blank=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.01)])
     date = models.DateField(db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)

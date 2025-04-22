@@ -30,15 +30,31 @@
     <table>
       <thead>
         <tr>
-          <th>Date</th><th>Type</th><th>Amount</th><th>Action</th>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Category</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
         {% for e in entries %}
+        <script>
+          console.log(
+            "Entry #{{ forloop.counter }}:",
+            "date=", "{{ e.date|date:'Y-m-d' }}",
+            "type=", "{{ e.get_entry_type_display }}",
+            "amount=", {{ e.amount }},
+            "category=", "{{ e.category }}",
+          );
+        </script>
         <tr>
           <td>{{ e.date }}</td>
-          <td>{{ e.get_entry_type_display }}</td>
+          <td class="{% if e.get_entry_type_display == 'Income'%} income {% else %} expenses {% endif %}">
+            {{ e.get_entry_type_display }}
+          </td>
           <td>${{ e.amount }}</td>
+          <td>{{ e.category }}</td>
           <td>
             <form method="post" action="{% url 'entry-delete' e.pk %}">
               {% csrf_token %}

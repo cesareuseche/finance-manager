@@ -13,6 +13,19 @@ class EntryForm(forms.ModelForm):
       • amount > 0
       • date is not in the future
     """
+    entry_type = forms.ChoiceField(
+        choices=[('', 'Select entry type')] + Entry.TYPE_CHOICES,
+        widget=forms.Select(attrs={'class': 'your-input-class'}),
+        error_messages={'required': 'Please choose an entry type.'}
+    )
+
+    category = forms.ChoiceField(
+        required=False,
+        choices=[('', 'Select a category')] + Entry.CATEGORY_CHOICES,
+        widget=forms.Select(attrs={'class': 'your-input-class'}),
+        error_messages={'required': 'Please choose a category.'}
+    )
+
     error_messages = {
         "source_required": "Select a valid choice. “%(value)s” is not one of the available choices.",
         "category_required": "Category is required for expense entries.",
@@ -47,7 +60,7 @@ class EntryForm(forms.ModelForm):
                 "source",
                 ValidationError(
                     self.error_messages["source_required"] % {
-                        "value": cleaned.get("source") or "—"
+                        "value": cleaned.get("source") or "Select a source"
                     },
                     code="source_required"
                 )
@@ -55,7 +68,15 @@ class EntryForm(forms.ModelForm):
 
         # expense must have category
         if entry_type == Entry.EXPENSE and not cleaned.get("category"):
-            self.add_error("category", self.error_messages["category_required"])
+            self.add_error(
+                "category",
+                ValidationError(
+                    self.error_messages["category_required"] % {
+                        "value": cleaned.get("category") or "Select a category"
+                    },
+                    code="category_required"
+                )
+            )
 
         # amount > 0
         amount = cleaned.get("amount")
