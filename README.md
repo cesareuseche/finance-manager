@@ -6,14 +6,12 @@ A minimalist, self‑hosted web app to track income and expenses, view running t
 
 ## ✨ Core Features
 
-| Feature                 | Details                                                                                             |
-|-------------------------|-----------------------------------------------------------------------------------------------------|
-| **Add & Manage Entries**| Enter income (source + amount) and expenses (description, category, amount, date). Create and delete entries as needed. |
-| **Per‑User Dashboard**  | Each authenticated user sees only their own data, with totals for income, expenses, and balance.    |
-| **File Persistence**    | Creates JSON (`data/finance_data.json`) and CSV‑style text (`data/finance_data.txt`) on every change via Django signals. |
-| **Validation & Errors** | Server‑side checks: positive amounts, required fields per entry type, date not in the future. Clear error messages. |
-| **Authentication**      | Django’s built‑in auth with a custom signup view. All finance views use `LoginRequiredMixin`.       |
-| **Unit Tests**          | `finance/tests.py` covers model validation and calculations.                                       |
+- **Add & Manage Entries**: Enter income (source + amount) and expenses (description, category, amount, date). Create and delete entries as needed.
+- **Per‑User Dashboard**: Each authenticated user sees only their own data, with totals for income, expenses, and balance.
+- **File Persistence**: Creates JSON (`data/finance_data.json`) and CSV‑style text (`data/finance_data.txt`) on every change via Django signals.
+- **Validation & Errors**: Server‑side checks for positive amounts, required fields per entry type, and date not in the future. Clear error messages.
+- **Authentication**: Django’s built‑in auth with a custom signup view; all finance views use `LoginRequiredMixin`.
+- **Unit Tests**: `finance/tests.py` covers model validation and calculations.
 
 ---
 
@@ -21,13 +19,13 @@ A minimalist, self‑hosted web app to track income and expenses, view running t
 
 - **Python 3.13** (compatible with 3.10+)
 - **Django 5.2**
-- **SQLite** (default) for storage
+- **SQLite** (default) or **PostgreSQL**
 - **python-dotenv** for environment variable management
 - **SCSS/Sass** for styling (via npm)
 
 ---
 
-## 🚀 Local Development
+## 🚀 Local Development (Without Docker)
 
 1. **Clone the repo**
    ```bash
@@ -36,137 +34,114 @@ A minimalist, self‑hosted web app to track income and expenses, view running t
    ```
 
 2. **Create & activate a virtual environment**
-   - macOS/Linux:
-     ```bash
-     python3 -m venv .venv
-     source .venv/bin/activate
-     ```
-   - Windows (PowerShell):
-     ```powershell
-     python -m venv .venv
-     .\.venv\Scripts\Activate.ps1
-     ```
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate  # .\.venv\Scripts\Activate.ps1 on Windows
+   ```
 
 3. **Install dependencies**
    ```bash
    pip install -r requirements.txt
+   npm install
    ```
 
-4. **Environment variables**
-   - Copy `.env.example` to `.env` and set:
-     ```dotenv
-     SECRET_KEY=django-insecure-<your-random-secret>
-     DEBUG=True
-     ```
+4. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env:
+   SECRET_KEY=django-insecure-<your-secret>
+   DEBUG=True
+   ```
 
-5. **Database setup**
+5. **Run database migrations & superuser**
    ```bash
    python manage.py migrate
    python manage.py createsuperuser
    ```
 
-6. **Build CSS (optional)**
+6. **Build assets & start server**
    ```bash
-   npm install
    npm run build:css
-   ```
-
-7. **Run the server**
-   ```bash
    python manage.py runserver
    ```
 
-Browse the app at <http://127.0.0.1:8000/>.
+Point your browser to http://127.0.0.1:8000/.
 
 ---
 
 ## 🐳 Docker & Docker Compose
 
-### Dockerfile (example)
+You can run the entire stack in containers—no local Python or Node installs required.
 
-```dockerfile
-# 1. Build stage
-FROM python:3.13-slim AS builder
-WORKDIR /app
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+### 1. Build the images
 
-# 2. Final stage
-FROM python:3.13-slim
-WORKDIR /app
-COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
-COPY . .
-
-# Environment
-ENV PYTHONUNBUFFERED=1
-ENV DJANGO_SETTINGS_MODULE=core.settings
-
-# Expose port
-EXPOSE 8000
-
-# Collect static files
-RUN apt-get update && apt-get install -y nodejs npm && \
-    npm install && npm run build:css && rm -rf /var/lib/apt/lists/*
-
-# Entry point
-CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
+```bash
+docker-compose build
 ```
 
-### docker-compose.yml (example)
+### 2. Start services
 
-```yaml
-version: '3.8'
-services:
-  web:
-    build: .
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
-      - data:/app/data
-    env_file:
-      - .env
-    depends_on:
-      - db
-
-  db:
-    image: "postgres:15"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=finance
-n      - POSTGRES_PASSWORD=finance
-      - POSTGRES_DB=finance_db
-
-volumes:
-  data:
-  pgdata:
+```bash
+docker-compose up -d
 ```
 
-1. **Build & run**
-   ```bash
-   docker-compose up --build
-   ```
+This will start:
+- **web** (Django + Gunicorn + static build)
+- **db** (PostgreSQL)
 
-2. **Run migrations & create superuser**
-   ```bash
-   docker-compose exec web python manage.py migrate
-   docker-compose exec web python manage.py createsuperuser
-   ```
+### 3. Run migrations & create a superuser
 
-3. **Access**
-   <http://127.0.0.1:8000/>
+```bash
+docker-compose exec web python manage.py migrate
+```
+
+```bash
+docker-compose exec web python manage.py createsuperuser
+```
+
+### 4. View logs (optional)
+
+```bash
+docker-compose logs -f web
+```
+
+### 5. Run the test suite
+
+```bash
+docker-compose exec web python manage.py test
+```
+
+### 6. Shutdown & cleanup
+
+```bash
+docker-compose down
+```
+
+To remove volumes (data) as well:
+
+```bash
+docker-compose down -v
+```
 
 ---
 
 ## ✅ Testing
 
+Locally (outside Docker):
+
 ```bash
 python manage.py test
+```
+
+In Docker:
+
+```bash
+docker-compose exec web python manage.py test
 ```
 
 ---
 
 ## 📄 License
 
-MIT © <Cesar Useche>
+MIT © Cesar Useche
+
