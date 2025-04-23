@@ -39,15 +39,6 @@
       </thead>
       <tbody>
         {% for e in entries %}
-        <script>
-          console.log(
-            "Entry #{{ forloop.counter }}:",
-            "date=", "{{ e.date|date:'Y-m-d' }}",
-            "type=", "{{ e.get_entry_type_display }}",
-            "amount=", {{ e.amount }},
-            "category=", "{{ e.category }}",
-          );
-        </script>
         <tr>
           <td>{{ e.date }}</td>
           <td class="{% if e.get_entry_type_display == 'Income'%} income {% else %} expenses {% endif %}">

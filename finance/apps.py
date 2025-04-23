@@ -24,7 +24,7 @@ class FinanceConfig(AppConfig):
         from pathlib import Path
         from django.conf import settings
         from django.db.utils import OperationalError, ProgrammingError
-        from .models import Entry            # <-- NOW it's safe!
+        from .models import Entry
         from .utils import JSON_FILE
 
         # skip if migrations haven't run yet (or during 'makemigrations')
