@@ -15,14 +15,12 @@ class EntryForm(forms.ModelForm):
     """
     entry_type = forms.ChoiceField(
         choices=[('', 'Select entry type')] + Entry.TYPE_CHOICES,
-        widget=forms.Select(attrs={'class': 'your-input-class'}),
         error_messages={'required': 'Please choose an entry type.'}
     )
 
     category = forms.ChoiceField(
         required=False,
         choices=[('', 'Select a category')] + Entry.CATEGORY_CHOICES,
-        widget=forms.Select(attrs={'class': 'your-input-class'}),
         error_messages={'required': 'Please choose a category.'}
     )
 
